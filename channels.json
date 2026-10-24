@@ -1,0 +1,175 @@
+{
+  "base": "http://192.168.1.11:17999/",
+  "channels": [
+    {
+      "name": "DAZN 1",
+      "group": "Sport",
+      "ref": "12382:H:27500:0084:000B:0085:0"
+    },
+    {
+      "name": "DAZN 2",
+      "group": "Sport",
+      "ref": "12382:H:27500:007A:000B:0085:0"
+    },
+    {
+      "name": "Sky Sport 1",
+      "group": "Sport",
+      "ref": "11914:H:27500:010C:0006:0085:0"
+    },
+    {
+      "name": "Sky Sport Mix",
+      "group": "Sport",
+      "ref": "11758:H:27500:008D:0002:0085:0"
+    },
+    {
+      "name": "Sky Sport F1",
+      "group": "Sport",
+      "ref": "11914:H:27500:0011:0006:0085:0"
+    },
+    {
+      "name": "Sky Sport Top Event",
+      "group": "Sport",
+      "ref": "11914:H:27500:0081:0006:0085:0"
+    },
+    {
+      "name": "Sky Sport Austria 1",
+      "group": "Sport",
+      "ref": "12032:H:27500:008F:0004:0085:0"
+    },
+    {
+      "name": "Sky Sport Premier League",
+      "group": "Sport",
+      "ref": "12032:H:27500:0091:0004:0085:0"
+    },
+    {
+      "name": "Sky Sport Tennis",
+      "group": "Sport",
+      "ref": "11992:H:27500:0072:000D:0085:0"
+    },
+    {
+      "name": "Sky Sport Golf",
+      "group": "Sport",
+      "ref": "11992:H:27500:0090:000D:0085:0"
+    },
+    {
+      "name": "Sky Sport News",
+      "group": "Sport",
+      "ref": "12304:H:27500:006C:000C:0085:0"
+    },
+    {
+      "name": "Sky Sport Austria 5",
+      "group": "Sport",
+      "ref": "12382:H:27500:0146:000B:0085:0"
+    },
+    {
+      "name": "Sky Sport Bundesliga",
+      "group": "Sport",
+      "ref": "12304:H:27500:0069:000C:0085:0"
+    },
+    {
+      "name": "Motorvision+",
+      "group": "Sport",
+      "ref": "12382:H:27500:00A8:000B:0085:0"
+    },
+    {
+      "name": "Sky Cinema Feelgood",
+      "group": "Cinema",
+      "ref": "11758:H:27500:008B:0002:0085:0"
+    },
+    {
+      "name": "Sky Cinema Premiere",
+      "group": "Cinema",
+      "ref": "11914:H:27500:0083:0006:0085:0"
+    },
+    {
+      "name": "Sky Cinema Action",
+      "group": "Cinema",
+      "ref": "12032:H:27500:0074:0004:0085:0"
+    },
+    {
+      "name": "Warner TV Film",
+      "group": "Cinema",
+      "ref": "12032:H:27500:008C:0004:0085:0"
+    },
+    {
+      "name": "Sky Cinema Blockbuster",
+      "group": "Cinema",
+      "ref": "11992:H:27500:006F:000D:0085:0"
+    },
+    {
+      "name": "Sky Cinema Classics",
+      "group": "Cinema",
+      "ref": "12304:H:27500:006B:000C:0085:0"
+    },
+    {
+      "name": "Sky Sci-Fi",
+      "group": "Cinema",
+      "ref": "12304:H:27500:007E:000C:0085:0"
+    },
+    {
+      "name": "Sky One",
+      "group": "Entertainment",
+      "ref": "11758:H:27500:0093:0002:0085:0"
+    },
+    {
+      "name": "Sky Crime",
+      "group": "Entertainment",
+      "ref": "11914:H:27500:000D:0006:0085:0"
+    },
+    {
+      "name": "13th Street",
+      "group": "Entertainment",
+      "ref": "11992:H:27500:007F:000D:0085:0"
+    },
+    {
+      "name": "Sky Atlantic",
+      "group": "Entertainment",
+      "ref": "11992:H:27500:006E:000D:0085:0"
+    },
+    {
+      "name": "Sky Krimi",
+      "group": "Entertainment",
+      "ref": "12032:H:27500:0017:0004:0085:0"
+    },
+    {
+      "name": "Sky Showcase",
+      "group": "Entertainment",
+      "ref": "12382:H:27500:008E:000B:0085:0"
+    },
+    {
+      "name": "Warner TV Comedy",
+      "group": "Entertainment",
+      "ref": "12382:H:27500:0088:000B:0085:0"
+    },
+    {
+      "name": "Sky Nature",
+      "group": "Documentary",
+      "ref": "11914:H:27500:0076:0006:0085:0"
+    },
+    {
+      "name": "NatGeo",
+      "group": "Documentary",
+      "ref": "11914:H:27500:0082:0006:0085:0"
+    },
+    {
+      "name": "NatGeo Wild",
+      "group": "Documentary",
+      "ref": "12032:H:27500:0077:0004:0085:0"
+    },
+    {
+      "name": "Sky Documentaries",
+      "group": "Documentary",
+      "ref": "11992:H:27500:0070:000D:0085:0"
+    },
+    {
+      "name": "Jukebox",
+      "group": "Music",
+      "ref": "12382:H:27500:0191:000B:0085:0"
+    },
+    {
+      "name": "Cartoon Network",
+      "group": "Kids",
+      "ref": "12382:H:27500:0194:000B:0085:0"
+    }
+  ]
+}
