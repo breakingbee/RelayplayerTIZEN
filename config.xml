@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets"
+        id="http://local/relayplayer" version="1.0.0" viewmodes="maximized">
+  <tizen:application id="RelayPlayer.RelayPlayer" package="RelayPlayer" required_version="2.3"/>
+  <content src="index.html"/>
+  <feature name="http://tizen.org/feature/screen.size.normal.1080.1920"/>
+  <tizen:privilege name="http://developer.samsung.com/privilege/avplay"/>
+  <tizen:privilege name="http://tizen.org/privilege/internet"/>
+  <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice"/>
+  <tizen:profile name="tv-samsung"/>
+  <icon src="icon.png"/>
+  <name>Relay Player</name>
+  <description>Local streamrelay player for Enigma2 links on Samsung Tizen TVs</description>
+</widget>
