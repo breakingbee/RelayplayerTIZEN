@@ -173,3 +173,363 @@
     }
   ]
 }
+{
+  "base": "http://192.168.1.11:17999/",
+  "channels": [
+    {
+      "name": "tdp HD",
+      "group": "Hispasat 11653",
+      "ref": "1:0:1:1E0:0:0:0:0:0:0:?abertis=301&key=25AA110F3CFDB9D"
+    },
+    {
+      "name": "24h HD",
+      "group": "Hispasat 11653",
+      "ref": "1:0:1:1E3:0:0:0:0:0:0:?abertis=301&key=25AA110F3CFDB9D"
+    },
+    {
+      "name": "La 1 HD",
+      "group": "Hispasat 11653",
+      "ref": "1:0:1:1E4:0:0:0:0:0:0:?abertis=301&key=25AA110F3CFDB9D"
+    },
+    {
+      "name": "La 2 HD",
+      "group": "Hispasat 11653",
+      "ref": "1:0:1:1E8:0:0:0:0:0:0:?abertis=301&key=25AA110F3CFDB9D"
+    },
+    {
+      "name": "SQUIRREL",
+      "group": "Hispasat 12548",
+      "ref": "1:0:1:C9:0:0:0:0:0:0:?abertis=701&key=7578FAE7D3B728B2"
+    },
+    {
+      "name": "ONET TV",
+      "group": "Hispasat 12548",
+      "ref": "1:0:1:CA:0:0:0:0:0:0:?abertis=701&key=7578FAE7D3B728B2"
+    },
+    {
+      "name": "DMAX",
+      "group": "Hispasat 12548",
+      "ref": "1:0:1:115:0:0:0:0:0:0:?abertis=701&key=7578FAE7D3B728B2"
+    },
+    {
+      "name": "VEO 7",
+      "group": "Hispasat 12548",
+      "ref": "1:0:1:116:0:0:0:0:0:0:?abertis=701&key=7578FAE7D3B728B2"
+    },
+    {
+      "name": "Antena 3",
+      "group": "Hispasat 12548",
+      "ref": "1:0:1:95:0:0:0:0:0:0:?abertis=702&key=7578FAE7D3B728B2"
+    },
+    {
+      "name": "laSexta",
+      "group": "Hispasat 12548",
+      "ref": "1:0:1:97:0:0:0:0:0:0:?abertis=702&key=7578FAE7D3B728B2"
+    },
+    {
+      "name": "Neox",
+      "group": "Hispasat 12548",
+      "ref": "1:0:1:99:0:0:0:0:0:0:?abertis=702&key=7578FAE7D3B728B2"
+    },
+    {
+      "name": "nova",
+      "group": "Hispasat 12548",
+      "ref": "1:0:1:9A:0:0:0:0:0:0:?abertis=702&key=7578FAE7D3B728B2"
+    },
+    {
+      "name": "FDF",
+      "group": "Hispasat 12548",
+      "ref": "1:0:1:BC:0:0:0:0:0:0:?abertis=703&key=7578FAE7D3B728B2"
+    },
+    {
+      "name": "Divinity",
+      "group": "Hispasat 12548",
+      "ref": "1:0:1:BD:0:0:0:0:0:0:?abertis=703&key=7578FAE7D3B728B2"
+    },
+    {
+      "name": "Telecinco HD",
+      "group": "Hispasat 12548",
+      "ref": "1:0:1:BE:0:0:0:0:0:0:?abertis=703&key=7578FAE7D3B728B2"
+    },
+    {
+      "name": "Cuatro HD",
+      "group": "Hispasat 12548",
+      "ref": "1:0:1:BF:0:0:0:0:0:0:?abertis=703&key=7578FAE7D3B728B2"
+    },
+    {
+      "name": "A7",
+      "group": "Hispasat 11502",
+      "ref": "1:0:1:27EC:0:0:0:0:0:0:?abertis=801&key=D4D4731B2BA928FC"
+    },
+    {
+      "name": "A8",
+      "group": "Hispasat 11502",
+      "ref": "1:0:1:27F1:0:0:0:0:0:0:?abertis=801&key=D4D4731B2BA928FC"
+    },
+    {
+      "name": "La 1 UHD",
+      "group": "Hispasat 12583",
+      "ref": "1:0:1:9C43:0:0:0:0:0:0:?abertis=8008&key=FE6566C9EB28697C"
+    },
+    {
+      "name": "Telemadrid HDR",
+      "group": "Hispasat 12631",
+      "ref": "1:0:1:1A5:0:0:0:0:0:0:?abertis=8002&key=DBCEC36CA05806FE"
+    },
+    {
+      "name": "Realmadrid TV HD",
+      "group": "Hispasat 12671",
+      "ref": "1:0:1:67:0:0:0:0:0:0:?abertis=8004&key=759EC4D7AA7F658E"
+    },
+    {
+      "name": "TVE La 1 Extremadura",
+      "group": "Hispasat 11222",
+      "ref": "1:0:1:1F8:0:0:0:0:0:0:?abertis=2025&key=2A1F90D961EA97E2"
+    },
+    {
+      "name": "TVE La 1 La Rioja",
+      "group": "Hispasat 11222",
+      "ref": "1:0:1:20C:0:0:0:0:0:0:?abertis=2026&key=2A1F90D961EA97E2"
+    },
+    {
+      "name": "TVE La 1 Murcia",
+      "group": "Hispasat 11222",
+      "ref": "1:0:1:220:0:0:0:0:0:0:?abertis=2027&key=2A1F90D961EA97E2"
+    },
+    {
+      "name": "TVE La 1 Valencia",
+      "group": "Hispasat 11222",
+      "ref": "1:0:1:23E:0:0:0:0:0:0:?abertis=2028&key=081C6286233A75C"
+    },
+    {
+      "name": "tdp HD",
+      "group": "Hispasat 11302",
+      "ref": "1:0:1:17C:0:0:0:0:0:0:?abertis=2270&key=19103C655FDC9CD7"
+    },
+    {
+      "name": "24h HD",
+      "group": "Hispasat 11302",
+      "ref": "1:0:1:17F:0:0:0:0:0:0:?abertis=2270&key=19103C655FDC9CD7"
+    },
+    {
+      "name": "La 2 HD",
+      "group": "Hispasat 11302",
+      "ref": "1:0:1:184:0:0:0:0:0:0:?abertis=2270&key=19103C655FDC9CD7"
+    },
+    {
+      "name": "La 1 HD Navarra",
+      "group": "Hispasat 11302",
+      "ref": "1:0:1:22A:0:0:0:0:0:0:?abertis=2271&key=19103C655FDC9CD7"
+    },
+    {
+      "name": "La 1 HD Asturias",
+      "group": "Hispasat 11302",
+      "ref": "1:0:1:1B2:0:0:0:0:0:0:?abertis=2272&key=19103C655FDC9CD7"
+    },
+    {
+      "name": "TVE La 1 Aragon",
+      "group": "Hispasat 11302",
+      "ref": "1:0:1:1A8:0:0:0:0:0:0:?abertis=2273&key=19103C655FDC9CD7"
+    },
+    {
+      "name": "TVE La 1 Cantabria",
+      "group": "Hispasat 11302",
+      "ref": "1:0:1:1DA:0:0:0:0:0:0:?abertis=2274&key=19103C655FDC9CD7"
+    },
+    {
+      "name": "Canal Extremadura TV",
+      "group": "Hispasat 11347",
+      "ref": "1:0:1:29B8:0:0:0:0:0:0:?abertis=2302&key=71FD58C6E72F93A9"
+    },
+    {
+      "name": "TVG (Televisión de Galicia)",
+      "group": "Hispasat 11347",
+      "ref": "1:0:1:1:0:0:0:0:0:0:?abertis=2305&key=71FD58C6E72F93A9"
+    },
+    {
+      "name": "CyL7 (Castilla y León TV7)",
+      "group": "Hispasat 11347",
+      "ref": "1:0:1:2:0:0:0:0:0:0:?abertis=2306&key=71FD58C6E72F93A9"
+    },
+    {
+      "name": "SX3/33",
+      "group": "Hispasat 11347",
+      "ref": "1:0:1:326:0:0:0:0:0:0:?abertis=2308&key=71FD58C6E72F93A9"
+    },
+    {
+      "name": "3Cat Info",
+      "group": "Hispasat 11347",
+      "ref": "1:0:1:327:0:0:0:0:0:0:?abertis=2308&key=71FD58C6E72F93A9"
+    },
+    {
+      "name": "Esport 3",
+      "group": "Hispasat 11347",
+      "ref": "1:0:1:328:0:0:0:0:0:0:?abertis=2308&key=71FD58C6E72F93A9"
+    },
+    {
+      "name": "TV3 Catalunya",
+      "group": "Hispasat 11347",
+      "ref": "1:0:1:32D:0:0:0:0:0:0:?abertis=2308&key=71FD58C6E72F93A9"
+    },
+    {
+      "name": "IB3 Global",
+      "group": "Hispasat 11347",
+      "ref": "1:0:1:32F:0:0:0:0:0:0:?abertis=2308&key=71FD58C6E72F93A9"
+    },
+    {
+      "name": "La 1 HD Baleares",
+      "group": "Hispasat 11382",
+      "ref": "1:0:1:1BC:0:0:0:0:0:0:?abertis=2521&key=EB86E152E78C6DE0"
+    },
+    {
+      "name": "La 2 HD Baleares",
+      "group": "Hispasat 11382",
+      "ref": "1:0:1:1C0:0:0:0:0:0:?abertis=2521&key=EB86E152E78C6DE0"
+    },
+    {
+      "name": "La 1 HD Castilla La Mancha",
+      "group": "Hispasat 11382",
+      "ref": "1:0:1:1D0:0:0:0:0:0:?abertis=2522&key=EB86E152E78C6DE0"
+    },
+    {
+      "name": "La 2 HD Castilla La Mancha",
+      "group": "Hispasat 11382",
+      "ref": "1:0:1:1D4:0:0:0:0:0:0:?abertis=2522&key=EB86E152E78C6DE0"
+    },
+    {
+      "name": "La 1 HD Andalucia",
+      "group": "Hispasat 11382",
+      "ref": "1:0:1:19E:0:0:0:0:0:0:?abertis=2523&key=EB86E152E78C6DE0"
+    },
+    {
+      "name": "La 2 HD Andalucia",
+      "group": "Hispasat 11382",
+      "ref": "1:0:1:1A2:0:0:0:0:0:0:?abertis=2523&key=EB86E152E78C6DE0"
+    },
+    {
+      "name": "La 1 HD Castilla y Leon",
+      "group": "Hispasat 11382",
+      "ref": "1:0:1:1C6:0:0:0:0:0:0:?abertis=2524&key=EB86E152E78C6DE0"
+    },
+    {
+      "name": "La 2 HD Castilla y Leon",
+      "group": "Hispasat 11382",
+      "ref": "1:0:1:1CA:0:0:0:0:0:0:?abertis=2524&key=EB86E152E78C6DE0"
+    },
+    {
+      "name": "La 1 HD Pais Vasco",
+      "group": "Hispasat 11674",
+      "ref": "1:0:1:234:0:0:0:0:0:0:?abertis=421&key=19103C655FDC9CD7"
+    },
+    {
+      "name": "TVE La 1 Galicia",
+      "group": "Hispasat 11674",
+      "ref": "1:0:1:202:0:0:0:0:0:0:?abertis=423&key=FCF5190A9481A4B9"
+    },
+    {
+      "name": "Clan HD",
+      "group": "Hispasat 12583",
+      "ref": "1:0:1:9C41:0:0:0:0:0:0:?abertis=8008&key=FE6566C9EB28697C"
+    },
+    {
+      "name": "DKISS",
+      "group": "Hispasat 12583",
+      "ref": "1:0:1:A029:0:0:0:0:0:0:?abertis=8008&key=FE6566C9EB28697C"
+    },
+    {
+      "name": "TDP HD Madrid",
+      "group": "Hispasat 12631",
+      "ref": "1:0:1:212:0:0:0:0:0:0:?abertis=8001&key=2E4E9511A3155C14"
+    },
+    {
+      "name": "24h HD Madrid",
+      "group": "Hispasat 12631",
+      "ref": "1:0:1:215:0:0:0:0:0:0:?abertis=8001&key=2E4E9511A3155C14"
+    },
+    {
+      "name": "La 1 HD Madrid",
+      "group": "Hispasat 12631",
+      "ref": "1:0:1:216:0:0:0:0:0:0:?abertis=8001&key=2E4E9511A3155C14"
+    },
+    {
+      "name": "La 2 HD Madrid",
+      "group": "Hispasat 12631",
+      "ref": "1:0:1:21A:0:0:0:0:0:0:?abertis=8001&key=2E4E9511A3155C14"
+    },
+    {
+      "name": "BOM",
+      "group": "Hispasat 12631",
+      "ref": "1:0:1:1A7:0:0:0:0:0:0:?abertis=8002&key=DBCEC36CA05806FE"
+    },
+    {
+      "name": "Telemadrid HD",
+      "group": "Hispasat 12631",
+      "ref": "1:0:1:1A9:0:0:0:0:0:0:?abertis=8002&key=DBCEC36CA05806FE"
+    },
+    {
+      "name": "LA OTRA HD",
+      "group": "Hispasat 12631",
+      "ref": "1:0:1:3B88:0:0:0:0:0:0:?abertis=8002&key=DBCEC36CA05806FE"
+    },
+    {
+      "name": "Mega España",
+      "group": "Hispasat 12631",
+      "ref": "1:0:1:9B:0:0:0:0:0:0:?abertis=8003&key=C53AF0EFB178FC25"
+    },
+    {
+      "name": "Trece España",
+      "group": "Hispasat 12631",
+      "ref": "1:0:1:AA:0:0:0:0:0:0:?abertis=8003&key=C53AF0EFB178FC25"
+    },
+    {
+      "name": "Energy España",
+      "group": "Hispasat 12631",
+      "ref": "1:0:1:C0:0:0:0:0:0:?abertis=8003&key=C53AF0EFB178FC25"
+    },
+    {
+      "name": "Boing España",
+      "group": "Hispasat 12631",
+      "ref": "1:0:1:C1:0:0:0:0:0:0:?abertis=8003&key=C53AF0EFB178FC25"
+    },
+    {
+      "name": "ALERTA",
+      "group": "Hispasat 12671",
+      "ref": "1:0:1:6E:0:0:0:0:0:0:?abertis=8000&key=FE6566C9EB28697C"
+    },
+    {
+      "name": "A3Series",
+      "group": "Hispasat 12671",
+      "ref": "1:0:1:65:0:0:0:0:0:0:?abertis=8004&key=759EC4D7AA7F658E"
+    },
+    {
+      "name": "BeMad tv HD",
+      "group": "Hispasat 12671",
+      "ref": "1:0:1:66:0:0:0:0:0:0:?abertis=8004&key=759EC4D7AA7F658E"
+    },
+    {
+      "name": "TEN",
+      "group": "Hispasat 12671",
+      "ref": "1:0:1:68:0:0:0:0:0:0:?abertis=8004&key=759EC4D7AA7F658E"
+    },
+    {
+      "name": "TDP HD Cataluña",
+      "group": "Hispasat 12671",
+      "ref": "1:0:1:1EA:0:0:0:0:0:0:?abertis=8006&key=C53AF0EFB178FC25"
+    },
+    {
+      "name": "24h HD Cataluña",
+      "group": "Hispasat 12671",
+      "ref": "1:0:1:1ED:0:0:0:0:0:0:?abertis=8006&key=C53AF0EFB178FC25"
+    },
+    {
+      "name": "La 1 HD Cataluña",
+      "group": "Hispasat 12671",
+      "ref": "1:0:1:1EE:0:0:0:0:0:0:?abertis=8006&key=C53AF0EFB178FC25"
+    },
+    {
+      "name": "La 2 HD Cataluña",
+      "group": "Hispasat 12671",
+      "ref": "1:0:1:1F2:0:0:0:0:0:0:?abertis=8006&key=C53AF0EFB178FC25"
+    }
+  ]
+}
