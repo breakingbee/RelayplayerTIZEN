@@ -52,29 +52,37 @@
     }
     object { width: 100%; height: 100%; }
 
-    /* On-screen controls overlay while playing */
     #controls {
       position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-      display: none; gap: 30px; z-index: 20;
-      background: rgba(0,0,0,0.75); padding: 18px 30px; border-radius: 14px;
-      font-size: 24px; color: #fff;
+      display: none; gap: 24px; z-index: 20;
+      background: rgba(0,0,0,0.8); padding: 18px 28px; border-radius: 14px;
+      font-size: 24px; color: #fff; align-items: center;
     }
     #controls .btn {
-      padding: 12px 24px; background: #222; border-radius: 8px;
-      border: 2px solid #444;
+      padding: 12px 22px; background: #222; border-radius: 8px;
+      border: 2px solid #444; white-space: nowrap;
     }
-    #controls .btn.active { border-color: #00d4ff; color: #00d4ff; }
+    #controls .btn.highlight { border-color: #00d4ff; color: #00d4ff; }
+    #controls .hint { color: #888; font-size: 20px; margin-left: 8px; }
+
     #toast {
       position: absolute; top: 60px; left: 50%; transform: translateX(-50%);
-      background: rgba(0,0,0,0.85); color: #fff; padding: 16px 30px;
-      border-radius: 10px; font-size: 28px; display: none; z-index: 30;
+      background: rgba(0,0,0,0.9); color: #fff; padding: 18px 36px;
+      border-radius: 12px; font-size: 30px; display: none; z-index: 30;
+      border: 2px solid #00d4ff;
+    }
+
+    #osd {
+      position: absolute; top: 40px; right: 40px; z-index: 25;
+      background: rgba(0,0,0,0.75); padding: 14px 22px; border-radius: 10px;
+      font-size: 22px; color: #ccc; display: none;
     }
   </style>
 </head>
 <body>
   <div id="ui">
     <h1>Relay Player</h1>
-    <div class="subtitle">Enigma2 / streamrelay HTTP TS player for Samsung Tizen</div>
+    <div class="subtitle">Enigma2 / streamrelay HTTP TS player for Samsung Tizen (MU7000+)</div>
     <div class="row">
       <input id="url" type="text" placeholder="http://192.168.1.11:17999/...." value="http://192.168.1.11:17999/11758:H:27500:008D:0002:0085:0" autofocus/>
       <button id="playBtn">PLAY</button>
@@ -90,191 +98,254 @@
   <div id="controls">
     <div class="btn" id="audioBtn">Audio: —</div>
     <div class="btn" id="subBtn">Subs: Off</div>
-    <div class="btn">Back = Stop</div>
+    <div class="hint">Red = Audio · Green = Subs · OK = Pause · Back = Stop</div>
   </div>
 
+  <div id="osd"></div>
   <div id="toast"></div>
 
   <script>
-    const av = webapis.avplay;
-    const urlInput = document.getElementById('url');
-    const playBtn = document.getElementById('playBtn');
-    const recentDiv = document.getElementById('recent');
-    const status = document.getElementById('status');
-    const ui = document.getElementById('ui');
-    const playerContainer = document.getElementById('player-container');
-    const controls = document.getElementById('controls');
-    const audioBtn = document.getElementById('audioBtn');
-    const subBtn = document.getElementById('subBtn');
-    const toastEl = document.getElementById('toast');
+    var av = webapis.avplay;
+    var urlInput = document.getElementById('url');
+    var playBtn = document.getElementById('playBtn');
+    var recentDiv = document.getElementById('recent');
+    var statusEl = document.getElementById('status');
+    var ui = document.getElementById('ui');
+    var playerContainer = document.getElementById('player-container');
+    var controls = document.getElementById('controls');
+    var audioBtn = document.getElementById('audioBtn');
+    var subBtn = document.getElementById('subBtn');
+    var toastEl = document.getElementById('toast');
+    var osdEl = document.getElementById('osd');
 
-    let recent = JSON.parse(localStorage.getItem('relayRecent') || '[]');
-    let focusIndex = -1; // -1 = input, 0 = play, 1+ = recent
-    let audioTracks = [];
-    let textTracks = [];
-    let currentAudio = 0;
-    let currentText = -1; // -1 = off
+    var recent = JSON.parse(localStorage.getItem('relayRecent') || '[]');
+    var focusIndex = -1; // -1 = input, 0 = play, 1+ = recent
+    var audioTracks = [];
+    var textTracks = [];
+    var currentAudioIdx = 0; // position in audioTracks array
+    var currentTextIdx = -1; // -1 = off, else position in textTracks
+    var isPlaying = false;
 
-    function showToast(msg, ms = 2500) {
+    function showToast(msg, ms) {
+      ms = ms || 2800;
       toastEl.textContent = msg;
       toastEl.style.display = 'block';
       clearTimeout(showToast._t);
-      showToast._t = setTimeout(() => { toastEl.style.display = 'none'; }, ms);
+      showToast._t = setTimeout(function () { toastEl.style.display = 'none'; }, ms);
+    }
+
+    function setStatus(msg) {
+      statusEl.textContent = msg;
     }
 
     function saveRecent(url) {
-      recent = recent.filter(u => u !== url);
+      recent = recent.filter(function (u) { return u !== url; });
       recent.unshift(url);
-      if (recent.length > 20) recent.pop();
+      if (recent.length > 25) recent.pop();
       localStorage.setItem('relayRecent', JSON.stringify(recent));
       renderRecent();
     }
 
     function renderRecent() {
-      recentDiv.innerHTML = recent.map((u, i) =>
-        `<div class="item" data-idx="${i}" tabindex="0">${u}</div>`
-      ).join('') || '<div style="padding:20px;color:#555">No recent links yet</div>';
+      if (!recent.length) {
+        recentDiv.innerHTML = '<div style="padding:20px;color:#555">No recent links yet</div>';
+        return;
+      }
+      recentDiv.innerHTML = recent.map(function (u, i) {
+        return '<div class="item" data-idx="' + i + '" tabindex="0">' + u + '</div>';
+      }).join('');
     }
 
-    function setStatus(msg) {
-      status.textContent = msg;
+    /** Parse extra_info which is often a JSON string on Tizen */
+    function parseExtra(extra) {
+      if (!extra) return {};
+      if (typeof extra === 'object') return extra;
+      try {
+        return JSON.parse(extra);
+      } catch (e) {
+        return { raw: String(extra) };
+      }
+    }
+
+    function trackLabel(track, fallbackNum) {
+      var extra = parseExtra(track.extra_info);
+      var lang = extra.language || extra.track_lang || extra.lang || track.language || '';
+      var codec = extra.fourCC || extra.codec || extra.audio_codec || '';
+      var channels = extra.channels || extra.channel || '';
+      var parts = [];
+      if (lang) parts.push(lang);
+      if (codec) parts.push(codec);
+      if (channels) parts.push(channels + 'ch');
+      if (parts.length) return parts.join(' · ');
+      return 'Track ' + (fallbackNum + 1);
     }
 
     function updateTrackUI() {
-      const aName = audioTracks[currentAudio]
-        ? (audioTracks[currentAudio].language || audioTracks[currentAudio].extra_info || ('Track ' + (currentAudio + 1)))
-        : '—';
-      audioBtn.textContent = 'Audio: ' + aName;
+      if (audioTracks.length === 0) {
+        audioBtn.textContent = 'Audio: —';
+      } else {
+        var a = audioTracks[currentAudioIdx];
+        audioBtn.textContent = 'Audio: ' + trackLabel(a, currentAudioIdx) +
+          (audioTracks.length > 1 ? '  (' + (currentAudioIdx + 1) + '/' + audioTracks.length + ')' : '');
+      }
 
-      if (currentText < 0) {
+      if (currentTextIdx < 0 || textTracks.length === 0) {
         subBtn.textContent = 'Subs: Off';
       } else {
-        const t = textTracks[currentText];
-        subBtn.textContent = 'Subs: ' + (t.language || t.extra_info || ('Track ' + (currentText + 1)));
+        var t = textTracks[currentTextIdx];
+        subBtn.textContent = 'Subs: ' + trackLabel(t, currentTextIdx) +
+          '  (' + (currentTextIdx + 1) + '/' + textTracks.length + ')';
       }
     }
 
     function getTracks() {
+      audioTracks = [];
+      textTracks = [];
       try {
-        const info = av.getTotalTrackInfo();
-        audioTracks = [];
-        textTracks = [];
+        var info = av.getTotalTrackInfo();
         if (info && info.length) {
-          info.forEach((t, idx) => {
-            const type = (t.type || '').toUpperCase();
-            if (type === 'AUDIO') {
-              audioTracks.push({ index: idx, language: t.language, extra_info: t.extra_info });
-            } else if (type === 'TEXT') {
-              textTracks.push({ index: idx, language: t.language, extra_info: t.extra_info });
-            }
-          });
+          for (var i = 0; i < info.length; i++) {
+            var t = info[i];
+            var type = (t.type || '').toUpperCase();
+            // IMPORTANT: use t.index (AVPlay track index), NOT array position
+            var entry = {
+              index: (typeof t.index !== 'undefined') ? t.index : i,
+              type: type,
+              extra_info: t.extra_info,
+              language: t.language
+            };
+            if (type === 'AUDIO') audioTracks.push(entry);
+            else if (type === 'TEXT') textTracks.push(entry);
+          }
         }
-        // fallback: some firmwares report differently
-        if (audioTracks.length === 0) {
-          try {
-            const streamInfo = av.getStreamInfo();
-            // keep silent if empty
-          } catch (e) {}
-        }
-        currentAudio = 0;
-        currentText = -1;
-        updateTrackUI();
       } catch (e) {
-        console.log('getTotalTrackInfo error', e);
+        console.log('getTotalTrackInfo:', e);
+      }
+
+      // Keep selection in range
+      if (currentAudioIdx >= audioTracks.length) currentAudioIdx = 0;
+      if (currentTextIdx >= textTracks.length) currentTextIdx = -1;
+
+      updateTrackUI();
+
+      if (audioTracks.length || textTracks.length) {
+        osdEl.style.display = 'block';
+        osdEl.textContent = audioTracks.length + ' audio · ' + textTracks.length + ' subtitle track(s)';
+        clearTimeout(getTracks._osd);
+        getTracks._osd = setTimeout(function () { osdEl.style.display = 'none'; }, 4000);
       }
     }
 
     function cycleAudio() {
+      if (!isPlaying) return;
       if (audioTracks.length < 2) {
-        showToast(audioTracks.length === 0 ? 'No audio tracks found' : 'Only one audio track');
+        showToast(audioTracks.length === 0 ? 'No audio tracks detected' : 'Only one audio track');
         return;
       }
-      currentAudio = (currentAudio + 1) % audioTracks.length;
+      currentAudioIdx = (currentAudioIdx + 1) % audioTracks.length;
       try {
-        av.setSelectTrack('AUDIO', audioTracks[currentAudio].index);
+        av.setSelectTrack('AUDIO', audioTracks[currentAudioIdx].index);
         updateTrackUI();
-        showToast('Audio → ' + (audioTracks[currentAudio].language || ('Track ' + (currentAudio + 1))));
+        showToast('Audio → ' + trackLabel(audioTracks[currentAudioIdx], currentAudioIdx));
       } catch (e) {
+        console.log(e);
         showToast('Audio switch failed');
       }
     }
 
     function cycleSubtitle() {
-      // Off → first → second → … → Off
+      if (!isPlaying) return;
       if (textTracks.length === 0) {
         showToast('No subtitle tracks');
         return;
       }
-      currentText++;
-      if (currentText >= textTracks.length) currentText = -1;
+      // Off → 0 → 1 → … → Off
+      currentTextIdx++;
+      if (currentTextIdx >= textTracks.length) currentTextIdx = -1;
 
       try {
-        if (currentText === -1) {
-          // turn off – set a non-existing or use setSilentSubtitle if available
-          // many firmwares: select index -1 or just leave last and hide
-          av.setSelectTrack('TEXT', -1);
+        if (currentTextIdx === -1) {
+          // Prefer silent subtitle if available
+          try {
+            av.setSilentSubtitle(true);
+          } catch (e1) {
+            // Fallback: some firmwares reject -1; just leave last selected
+            try { av.setSelectTrack('TEXT', -1); } catch (e2) {}
+          }
           showToast('Subtitles Off');
         } else {
-          av.setSelectTrack('TEXT', textTracks[currentText].index);
-          showToast('Subs → ' + (textTracks[currentText].language || ('Track ' + (currentText + 1))));
+          try { av.setSilentSubtitle(false); } catch (e) {}
+          av.setSelectTrack('TEXT', textTracks[currentTextIdx].index);
+          showToast('Subs → ' + trackLabel(textTracks[currentTextIdx], currentTextIdx));
         }
         updateTrackUI();
       } catch (e) {
-        // some Tizen versions throw on -1; try alternative
-        try {
-          if (currentText >= 0) {
-            av.setSelectTrack('TEXT', textTracks[currentText].index);
-            showToast('Subs → ' + (textTracks[currentText].language || ('Track ' + (currentText + 1))));
-          } else {
-            showToast('Subtitles Off (limited support)');
-          }
-          updateTrackUI();
-        } catch (e2) {
-          showToast('Subtitle switch failed');
-        }
+        console.log(e);
+        showToast('Subtitle switch failed');
       }
     }
 
     function play(url) {
       if (!url) return;
+      url = url.trim();
       saveRecent(url);
       setStatus('Opening stream…');
       ui.style.display = 'none';
       playerContainer.style.display = 'block';
       controls.style.display = 'flex';
+      isPlaying = true;
 
       audioTracks = [];
       textTracks = [];
-      currentAudio = 0;
-      currentText = -1;
+      currentAudioIdx = 0;
+      currentTextIdx = -1;
       updateTrackUI();
 
       try {
+        // Clean previous session
+        try { av.stop(); } catch (e) {}
+        try { av.close(); } catch (e) {}
+
         av.open(url);
         av.setDisplayRect(0, 0, 1920, 1080);
+
+        // Prefer full-screen letterbox if available
+        try {
+          av.setDisplayMethod('PLAYER_DISPLAY_MODE_FULL_SCREEN');
+        } catch (e) {}
+
         av.setListener({
-          onbufferingstart: () => setStatus('Buffering…'),
-          onbufferingprogress: (p) => setStatus('Buffering ' + p + '%'),
-          onbufferingcomplete: () => {
+          onbufferingstart: function () { setStatus('Buffering…'); },
+          onbufferingprogress: function (p) { setStatus('Buffering ' + p + '%'); },
+          onbufferingcomplete: function () {
             setStatus('Playing');
-            // tracks often become available after buffering
-            setTimeout(getTracks, 800);
+            setTimeout(getTracks, 600);
           },
-          oncurrentplaytime: () => {},
-          onerror: (e) => {
+          oncurrentplaytime: function () {},
+          onerror: function (e) {
             setStatus('Error: ' + e);
-            showToast('Playback error');
+            showToast('Playback error: ' + e);
             stop();
           },
-          onstreamcompleted: () => stop()
+          onerrormsg: function (e, msg) {
+            setStatus('Error: ' + msg);
+            showToast(msg || e);
+          },
+          onstreamcompleted: function () { stop(); },
+          onsubtitlechange: function (duration, text) {
+            // Optional: could show burned-in subtitle text here if needed
+          }
         });
+
         av.prepareAsync(
-          () => {
+          function () {
             av.play();
             setStatus('Playing');
-            setTimeout(getTracks, 1200);
+            // Tracks often appear after a short delay on live TS
+            setTimeout(getTracks, 1000);
+            setTimeout(getTracks, 3000);
           },
-          (err) => {
+          function (err) {
             setStatus('Prepare failed');
             showToast('Cannot play this stream');
             console.log(err);
@@ -282,52 +353,75 @@
           }
         );
       } catch (e) {
-        setStatus('Exception: ' + e.message);
+        setStatus('Exception: ' + (e.message || e));
+        showToast('Failed to open stream');
         stop();
       }
     }
 
     function stop() {
-      try { av.stop(); av.close(); } catch (e) {}
+      isPlaying = false;
+      try { av.stop(); } catch (e) {}
+      try { av.close(); } catch (e) {}
       playerContainer.style.display = 'none';
       controls.style.display = 'none';
+      osdEl.style.display = 'none';
       ui.style.display = 'flex';
       urlInput.focus();
       focusIndex = -1;
+      setStatus('Stopped');
+    }
+
+    function togglePause() {
+      try {
+        var state = av.getState();
+        if (state === 'PLAYING') {
+          av.pause();
+          showToast('Paused');
+          setStatus('Paused');
+        } else if (state === 'PAUSED') {
+          av.play();
+          showToast('Playing');
+          setStatus('Playing');
+        }
+      } catch (e) {}
     }
 
     // Key handling
-    document.addEventListener('keydown', (e) => {
-      const key = e.keyCode;
+    document.addEventListener('keydown', function (e) {
+      var key = e.keyCode;
 
-      // Playing state
-      if (playerContainer.style.display === 'block') {
-        if (key === 10009 || key === 27 || key === 8) { // Back / Return
+      // ===== Playing state =====
+      if (isPlaying) {
+        if (key === 10009 || key === 27 || key === 8 || key === 461) { // Back / Return
           e.preventDefault();
           stop();
-        } else if (key === 13 || key === 415 || key === 19 || key === 10252) { // OK / Play / Pause
+        } else if (key === 13 || key === 415 || key === 19 || key === 10252) { // OK / PlayPause
           e.preventDefault();
-          try {
-            const state = av.getState();
-            if (state === 'PLAYING') { av.pause(); showToast('Paused'); }
-            else if (state === 'PAUSED') { av.play(); showToast('Playing'); }
-          } catch (ex) {}
-        } else if (key === 403 || key === 65) { // Red / A → Audio
+          togglePause();
+        } else if (key === 413) { // MediaStop
+          e.preventDefault();
+          stop();
+        } else if (key === 403 || key === 65 || key === 82) { // Red / A / R
           e.preventDefault();
           cycleAudio();
-        } else if (key === 404 || key === 66) { // Green / B → Subtitles
+        } else if (key === 404 || key === 66 || key === 71) { // Green / B / G
           e.preventDefault();
           cycleSubtitle();
+        } else if (key === 405) { // Yellow – refresh tracks
+          e.preventDefault();
+          getTracks();
+          showToast('Tracks refreshed');
         }
         return;
       }
 
-      // UI navigation
-      const items = recentDiv.querySelectorAll('.item');
+      // ===== UI navigation =====
+      var items = recentDiv.querySelectorAll('.item');
       if ([13, 37, 38, 39, 40].indexOf(key) !== -1) e.preventDefault();
 
       if (key === 13) { // OK
-        if (focusIndex <= 0) play(urlInput.value.trim());
+        if (focusIndex <= 0) play(urlInput.value);
         else if (items[focusIndex - 1]) play(items[focusIndex - 1].textContent);
       } else if (key === 40) { // Down
         focusIndex = Math.min(focusIndex + 1, items.length);
@@ -341,7 +435,7 @@
     function updateFocus(items) {
       urlInput.classList.remove('focus');
       playBtn.classList.remove('focus');
-      items.forEach(el => el.classList.remove('focus'));
+      for (var i = 0; i < items.length; i++) items[i].classList.remove('focus');
 
       if (focusIndex === -1) {
         urlInput.focus();
@@ -350,7 +444,7 @@
         playBtn.focus();
         playBtn.classList.add('focus');
       } else {
-        const el = items[focusIndex - 1];
+        var el = items[focusIndex - 1];
         if (el) {
           el.focus();
           el.classList.add('focus');
@@ -359,12 +453,12 @@
       }
     }
 
-    playBtn.addEventListener('click', () => play(urlInput.value.trim()));
-    recentDiv.addEventListener('click', (e) => {
+    playBtn.addEventListener('click', function () { play(urlInput.value); });
+    recentDiv.addEventListener('click', function (e) {
       if (e.target.classList.contains('item')) play(e.target.textContent);
     });
 
-    // Register media + color keys
+    // Register media + color keys for Samsung remote
     try {
       tizen.tvinputdevice.registerKey('MediaPlayPause');
       tizen.tvinputdevice.registerKey('MediaPlay');
