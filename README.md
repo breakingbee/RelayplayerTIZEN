@@ -1,84 +1,74 @@
 # Relay Player for Samsung Tizen TV
 
-Local player for **Enigma2 / streamrelay** HTTP MPEG-TS links (port `17999` style).
+Local player for **Enigma2 / streamrelay** HTTP MPEG-TS links.
 
-Built for Samsung **MU7000** and other Tizen 3.0+ TVs.
+Includes the full **SkyDe** channel list (34 channels with names & groups).
 
-Repo: [breakingbee/RelayplayerTIZEN](https://github.com/breakingbee/RelayplayerTIZEN)
+Repo: https://github.com/breakingbee/RelayplayerTIZEN
 
-## Features
+---
 
-- Paste any `http://IP:17999/...` streamrelay link and play
-- Recent links history (saved in localStorage)
-- **Audio track switching** (cycle with remote)
-- **Subtitle track switching** (cycle with remote)
-- Full remote support (D-pad, OK, Back, Play/Pause, color keys)
-- Hardware-accelerated via Samsung **AVPlay** API (required for raw TS)
+## Simple install steps (MU7000 / Tizen)
 
-## How to install
+### 1. Turn on Developer Mode on the TV
+1. Go to **Settings → Support → About This TV**
+2. Click the **Samsung logo** (or “Smart Hub” text) **many times** until a Developer Mode popup appears
+3. Switch **Developer Mode = On**
+4. Enter the **IP address of your PC** (the one you’ll use for install)
+5. TV will restart
 
-### Option A – Apps2Samsung (easiest)
-1. Download [Apps2Samsung](https://apps2samsung.com)
-2. Enable **Developer Mode** on the TV  
-   `Settings → Support → About This TV` → click the Samsung logo several times → set IP of your PC
-3. Point Apps2Samsung at this project folder (or the generated `.wgt`)
-4. Install on the TV
+### 2. Easiest way – Apps2Samsung (Windows)
+1. Download **Apps2Samsung** from https://apps2samsung.com
+2. Install and open it
+3. Download this project as ZIP from GitHub  
+   → green **Code** button → **Download ZIP** → unzip
+4. In Apps2Samsung point to the unzipped folder (the one that contains `config.xml` + `index.html`)
+5. Make sure TV and PC are on the **same Wi-Fi / LAN**
+6. Click **Install** / **Deploy**
+7. On the TV open the app **Relay Player** from Smart Hub / Apps
 
-### Option B – Tizen Studio
-1. Import this project
-2. Create a certificate (or use an existing one)
-3. Right-click → **Build Signed Package** → produces a `.wgt`
-4. Install via Device Manager / sdb
+### 3. Alternative – Tizen Studio
+1. Install Tizen Studio + TV Extension
+2. Import the project folder
+3. Create a certificate (Tools → Certificate Manager)
+4. Right-click project → **Build Signed Package** → creates a `.wgt`
+5. Connect to TV (`sdb connect TV_IP`) and install the `.wgt`
 
-```bash
-sdb connect <TV_IP>
-sdb install RelayPlayer.wgt
-```
+---
 
-## Remote controls
+## How to use
 
-### While playing
+| Remote key | Action |
+|------------|--------|
+| **← → ↑ ↓** | Move between channels |
+| **OK** | Play selected channel |
+| **Red** | Previous group (All / Sport / Cinema …) |
+| **Green** | Next group |
+| **Back** | Stop playback → back to list |
+| **OK** (while playing) | Pause / Resume |
+| **Red** (while playing) | Switch **audio** track |
+| **Green** (while playing) | Switch **subtitles** |
 
-| Key | Action |
-|-----|--------|
-| **OK / Enter** | Play / Pause |
-| **Back / Return** | Stop → return to link list |
-| **Red** (ColorA) | Cycle **Audio** track |
-| **Green** (ColorB) | Cycle **Subtitle** track |
-| **Yellow** | Refresh track list |
-| Media Stop | Stop |
+You can still paste any custom `http://192.168.1.11:17999/...` link at the bottom.
 
-### In the UI
+---
 
-| Key | Action |
-|-----|--------|
-| Up / Down | Navigate recent list |
-| OK | Play selected / current URL |
+## Channels included (from SkyDe.m3u)
 
-## Files
+**Sport** – DAZN 1, DAZN 2, Sky Sport 1, Mix, F1, Top Event, Austria 1, Premier League, Tennis, Golf, News, Austria 5, Bundesliga, Motorvision+
 
-| File | Purpose |
-|------|---------|
-| `index.html` | Full app (UI + AVPlay + track switching) |
-| `config.xml` | Tizen widget manifest + privileges |
-| `icon.png` | App icon (optional – add your own 512×512) |
+**Cinema** – Feelgood, Premiere, Action, Warner TV Film, Blockbuster, Classics, Sci-Fi
 
-## Why AVPlay?
+**Entertainment** – Sky One, Crime, 13th Street, Atlantic, Krimi, Showcase, Warner TV Comedy
 
-These streamrelay links are raw **MPEG-TS over HTTP**.  
-TiviMate on Android plays them fine (ExoPlayer).  
-Samsung’s browser `<video>` usually fails on this format.  
-**AVPlay** is the native hardware player that can handle it on Tizen.
+**Documentary** – Sky Nature, NatGeo, NatGeo Wild, Sky Documentaries
 
-## Notes / limitations
+**Music** – Jukebox  ·  **Kids** – Cartoon Network
 
-- Multiple audio PIDs are common on satellite/cable streams → Red button cycles them.
-- Subtitles (DVB/teletext) depend on the stream; many streamrelay feeds have none.
-- Track list is refreshed a couple of times after play starts (live TS can be slow to report tracks).
-- Tested against Tizen 3.0+ (MU7000 era). Newer TVs should work the same.
+---
 
-## Example link
+## Requirements
 
-```
-http://192.168.1.11:17999/11758:H:27500:008D:0002:0085:0
-```
+- Samsung Tizen TV (2016+ / Tizen 3.0+) – tested for MU7000
+- Your Enigma2 / streamrelay box reachable at `192.168.1.11:17999`
+- TV and the relay box on the same local network

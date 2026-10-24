@@ -15,37 +15,61 @@
     }
     #ui {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      display: flex; flex-direction: column; padding: 40px;
+      display: flex; flex-direction: column; padding: 30px 40px 20px;
       background: linear-gradient(135deg, #0f0f13 0%, #1a1a2e 100%);
       z-index: 10;
     }
-    h1 { font-size: 48px; margin-bottom: 8px; color: #00d4ff; }
-    .subtitle { font-size: 22px; color: #888; margin-bottom: 30px; }
-    .row { display: flex; gap: 20px; margin-bottom: 25px; }
-    input {
-      flex: 1; height: 70px; font-size: 26px; padding: 0 20px;
-      background: #1c1c24; border: 3px solid #333; color: #fff; border-radius: 10px;
+    .header { display: flex; align-items: baseline; gap: 20px; margin-bottom: 18px; }
+    h1 { font-size: 42px; color: #00d4ff; }
+    .subtitle { font-size: 20px; color: #777; }
+
+    /* Group tabs */
+    #groups {
+      display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap;
     }
-    input:focus { border-color: #00d4ff; outline: none; }
-    button {
-      height: 70px; padding: 0 36px; font-size: 26px;
-      background: #00d4ff; color: #000; border: none; border-radius: 10px;
-      font-weight: bold; cursor: pointer;
+    .group-tab {
+      padding: 10px 22px; font-size: 22px; border-radius: 8px;
+      background: #1c1c28; border: 2px solid #333; color: #bbb;
     }
-    button:focus, .focus { outline: 4px solid #fff; }
-    #recent {
-      flex: 1; overflow-y: auto; background: #121218;
-      border-radius: 12px; padding: 15px;
+    .group-tab.active, .group-tab.focus {
+      background: #00d4ff; color: #000; border-color: #00d4ff; font-weight: bold;
     }
-    .item {
-      padding: 16px 22px; font-size: 24px; border-bottom: 1px solid #2a2a35;
+
+    /* Channel grid */
+    #channels {
+      flex: 1; overflow: hidden; display: flex; flex-wrap: wrap;
+      align-content: flex-start; gap: 12px; padding: 4px;
+    }
+    .ch {
+      width: 300px; padding: 18px 20px; font-size: 24px;
+      background: #16161f; border: 3px solid #2a2a38; border-radius: 10px;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-    .item:focus, .item.focus { background: #00d4ff; color: #000; }
-    #status {
-      position: absolute; bottom: 25px; left: 40px; right: 40px;
-      font-size: 22px; color: #aaa;
+    .ch .g { font-size: 16px; color: #666; display: block; margin-bottom: 2px; }
+    .ch.focus, .ch:focus {
+      background: #00d4ff; color: #000; border-color: #fff;
     }
+    .ch.focus .g { color: #004455; }
+
+    /* Manual URL row (collapsed by default feel) */
+    #manual {
+      display: flex; gap: 14px; margin-top: 14px; align-items: center;
+    }
+    #manual input {
+      flex: 1; height: 54px; font-size: 20px; padding: 0 16px;
+      background: #1c1c24; border: 2px solid #333; color: #fff; border-radius: 8px;
+    }
+    #manual input:focus { border-color: #00d4ff; outline: none; }
+    #manual button {
+      height: 54px; padding: 0 28px; font-size: 20px;
+      background: #00d4ff; color: #000; border: none; border-radius: 8px; font-weight: bold;
+    }
+    #manual button:focus { outline: 3px solid #fff; }
+
+    #status {
+      margin-top: 10px; font-size: 20px; color: #888;
+    }
+
     #player-container {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       display: none; background: #000; z-index: 5;
@@ -55,60 +79,102 @@
     #controls {
       position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
       display: none; gap: 24px; z-index: 20;
-      background: rgba(0,0,0,0.8); padding: 18px 28px; border-radius: 14px;
-      font-size: 24px; color: #fff; align-items: center;
+      background: rgba(0,0,0,0.85); padding: 16px 28px; border-radius: 14px;
+      font-size: 22px; color: #fff; align-items: center;
     }
     #controls .btn {
-      padding: 12px 22px; background: #222; border-radius: 8px;
+      padding: 10px 20px; background: #222; border-radius: 8px;
       border: 2px solid #444; white-space: nowrap;
     }
-    #controls .btn.highlight { border-color: #00d4ff; color: #00d4ff; }
-    #controls .hint { color: #888; font-size: 20px; margin-left: 8px; }
+    #controls .hint { color: #888; font-size: 18px; }
+
+    #nowplaying {
+      position: absolute; top: 30px; left: 40px; z-index: 25;
+      background: rgba(0,0,0,0.8); padding: 14px 24px; border-radius: 10px;
+      font-size: 28px; color: #00d4ff; display: none;
+    }
 
     #toast {
       position: absolute; top: 60px; left: 50%; transform: translateX(-50%);
-      background: rgba(0,0,0,0.9); color: #fff; padding: 18px 36px;
-      border-radius: 12px; font-size: 30px; display: none; z-index: 30;
+      background: rgba(0,0,0,0.92); color: #fff; padding: 18px 36px;
+      border-radius: 12px; font-size: 28px; display: none; z-index: 30;
       border: 2px solid #00d4ff;
-    }
-
-    #osd {
-      position: absolute; top: 40px; right: 40px; z-index: 25;
-      background: rgba(0,0,0,0.75); padding: 14px 22px; border-radius: 10px;
-      font-size: 22px; color: #ccc; display: none;
     }
   </style>
 </head>
 <body>
   <div id="ui">
-    <h1>Relay Player</h1>
-    <div class="subtitle">Enigma2 / streamrelay HTTP TS player for Samsung Tizen (MU7000+)</div>
-    <div class="row">
-      <input id="url" type="text" placeholder="http://192.168.1.11:17999/...." value="http://192.168.1.11:17999/11758:H:27500:008D:0002:0085:0" autofocus/>
-      <button id="playBtn">PLAY</button>
+    <div class="header">
+      <h1>Relay Player</h1>
+      <span class="subtitle">Sky DE · streamrelay · Samsung Tizen</span>
     </div>
-    <div id="recent"></div>
-    <div id="status">Ready — paste a streamrelay link and press PLAY (or OK)</div>
+    <div id="groups"></div>
+    <div id="channels"></div>
+    <div id="manual">
+      <input id="url" type="text" placeholder="Or paste any http://IP:17999/... link"/>
+      <button id="playBtn">PLAY URL</button>
+    </div>
+    <div id="status">↑↓←→ navigate · OK play · Red/Green groups · Back exit</div>
   </div>
 
   <div id="player-container">
     <object id="avplayer" type="application/avplayer"></object>
   </div>
 
+  <div id="nowplaying"></div>
   <div id="controls">
     <div class="btn" id="audioBtn">Audio: —</div>
     <div class="btn" id="subBtn">Subs: Off</div>
-    <div class="hint">Red = Audio · Green = Subs · OK = Pause · Back = Stop</div>
+    <div class="hint">Red=Audio · Green=Subs · OK=Pause · Back=Stop</div>
   </div>
-
-  <div id="osd"></div>
   <div id="toast"></div>
 
   <script>
+    // ========== CHANNEL LIST FROM SkyDe.m3u ==========
+    var CHANNELS = [
+      { name: "DAZN 1", group: "Sport", url: "http://192.168.1.11:17999/12382:H:27500:0084:000B:0085:0" },
+      { name: "DAZN 2", group: "Sport", url: "http://192.168.1.11:17999/12382:H:27500:007A:000B:0085:0" },
+      { name: "Sky Sport 1", group: "Sport", url: "http://192.168.1.11:17999/11914:H:27500:010C:0006:0085:0" },
+      { name: "Sky Sport Mix", group: "Sport", url: "http://192.168.1.11:17999/11758:H:27500:008D:0002:0085:0" },
+      { name: "Sky Sport F1", group: "Sport", url: "http://192.168.1.11:17999/11914:H:27500:0011:0006:0085:0" },
+      { name: "Sky Sport Top Event", group: "Sport", url: "http://192.168.1.11:17999/11914:H:27500:0081:0006:0085:0" },
+      { name: "Sky Sport Austria 1", group: "Sport", url: "http://192.168.1.11:17999/12032:H:27500:008F:0004:0085:0" },
+      { name: "Sky Sport Premier League", group: "Sport", url: "http://192.168.1.11:17999/12032:H:27500:0091:0004:0085:0" },
+      { name: "Sky Sport Tennis", group: "Sport", url: "http://192.168.1.11:17999/11992:H:27500:0072:000D:0085:0" },
+      { name: "Sky Sport Golf", group: "Sport", url: "http://192.168.1.11:17999/11992:H:27500:0090:000D:0085:0" },
+      { name: "Sky Sport News", group: "Sport", url: "http://192.168.1.11:17999/12304:H:27500:006C:000C:0085:0" },
+      { name: "Sky Sport Austria 5", group: "Sport", url: "http://192.168.1.11:17999/12382:H:27500:0146:000B:0085:0" },
+      { name: "Sky Sport Bundesliga", group: "Sport", url: "http://192.168.1.11:17999/12304:H:27500:0069:000C:0085:0" },
+      { name: "Motorvision+", group: "Sport", url: "http://192.168.1.11:17999/12382:H:27500:00A8:000B:0085:0" },
+      { name: "Sky Cinema Feelgood", group: "Cinema", url: "http://192.168.1.11:17999/11758:H:27500:008B:0002:0085:0" },
+      { name: "Sky Cinema Premiere", group: "Cinema", url: "http://192.168.1.11:17999/11914:H:27500:0083:0006:0085:0" },
+      { name: "Sky Cinema Action", group: "Cinema", url: "http://192.168.1.11:17999/12032:H:27500:0074:0004:0085:0" },
+      { name: "Warner TV Film", group: "Cinema", url: "http://192.168.1.11:17999/12032:H:27500:008C:0004:0085:0" },
+      { name: "Sky Cinema Blockbuster", group: "Cinema", url: "http://192.168.1.11:17999/11992:H:27500:006F:000D:0085:0" },
+      { name: "Sky Cinema Classics", group: "Cinema", url: "http://192.168.1.11:17999/12304:H:27500:006B:000C:0085:0" },
+      { name: "Sky Sci-Fi", group: "Cinema", url: "http://192.168.1.11:17999/12304:H:27500:007E:000C:0085:0" },
+      { name: "Sky One", group: "Entertainment", url: "http://192.168.1.11:17999/11758:H:27500:0093:0002:0085:0" },
+      { name: "Sky Crime", group: "Entertainment", url: "http://192.168.1.11:17999/11914:H:27500:000D:0006:0085:0" },
+      { name: "13th Street", group: "Entertainment", url: "http://192.168.1.11:17999/11992:H:27500:007F:000D:0085:0" },
+      { name: "Sky Atlantic", group: "Entertainment", url: "http://192.168.1.11:17999/11992:H:27500:006E:000D:0085:0" },
+      { name: "Sky Krimi", group: "Entertainment", url: "http://192.168.1.11:17999/12032:H:27500:0017:0004:0085:0" },
+      { name: "Sky Showcase", group: "Entertainment", url: "http://192.168.1.11:17999/12382:H:27500:008E:000B:0085:0" },
+      { name: "Warner TV Comedy", group: "Entertainment", url: "http://192.168.1.11:17999/12382:H:27500:0088:000B:0085:0" },
+      { name: "Sky Nature", group: "Documentary", url: "http://192.168.1.11:17999/11914:H:27500:0076:0006:0085:0" },
+      { name: "NatGeo", group: "Documentary", url: "http://192.168.1.11:17999/11914:H:27500:0082:0006:0085:0" },
+      { name: "NatGeo Wild", group: "Documentary", url: "http://192.168.1.11:17999/12032:H:27500:0077:0004:0085:0" },
+      { name: "Sky Documentaries", group: "Documentary", url: "http://192.168.1.11:17999/11992:H:27500:0070:000D:0085:0" },
+      { name: "Jukebox", group: "Music", url: "http://192.168.1.11:17999/12382:H:27500:0191:000B:0085:0" },
+      { name: "Cartoon Network", group: "Kids", url: "http://192.168.1.11:17999/12382:H:27500:0194:000B:0085:0" }
+    ];
+
+    var GROUPS = ["All", "Sport", "Cinema", "Entertainment", "Documentary", "Music", "Kids"];
+
     var av = webapis.avplay;
+    var groupsEl = document.getElementById('groups');
+    var channelsEl = document.getElementById('channels');
     var urlInput = document.getElementById('url');
     var playBtn = document.getElementById('playBtn');
-    var recentDiv = document.getElementById('recent');
     var statusEl = document.getElementById('status');
     var ui = document.getElementById('ui');
     var playerContainer = document.getElementById('player-container');
@@ -116,101 +182,93 @@
     var audioBtn = document.getElementById('audioBtn');
     var subBtn = document.getElementById('subBtn');
     var toastEl = document.getElementById('toast');
-    var osdEl = document.getElementById('osd');
+    var nowplaying = document.getElementById('nowplaying');
 
-    var recent = JSON.parse(localStorage.getItem('relayRecent') || '[]');
-    var focusIndex = -1; // -1 = input, 0 = play, 1+ = recent
+    var currentGroup = 0; // index in GROUPS
+    var focusCh = 0;      // index in filtered list
+    var filtered = [];
     var audioTracks = [];
     var textTracks = [];
-    var currentAudioIdx = 0; // position in audioTracks array
-    var currentTextIdx = -1; // -1 = off, else position in textTracks
+    var currentAudioIdx = 0;
+    var currentTextIdx = -1;
     var isPlaying = false;
+    var currentName = '';
 
     function showToast(msg, ms) {
-      ms = ms || 2800;
+      ms = ms || 2500;
       toastEl.textContent = msg;
       toastEl.style.display = 'block';
       clearTimeout(showToast._t);
       showToast._t = setTimeout(function () { toastEl.style.display = 'none'; }, ms);
     }
 
-    function setStatus(msg) {
-      statusEl.textContent = msg;
-    }
+    function setStatus(msg) { statusEl.textContent = msg; }
 
-    function saveRecent(url) {
-      recent = recent.filter(function (u) { return u !== url; });
-      recent.unshift(url);
-      if (recent.length > 25) recent.pop();
-      localStorage.setItem('relayRecent', JSON.stringify(recent));
-      renderRecent();
-    }
-
-    function renderRecent() {
-      if (!recent.length) {
-        recentDiv.innerHTML = '<div style="padding:20px;color:#555">No recent links yet</div>';
-        return;
-      }
-      recentDiv.innerHTML = recent.map(function (u, i) {
-        return '<div class="item" data-idx="' + i + '" tabindex="0">' + u + '</div>';
+    function renderGroups() {
+      groupsEl.innerHTML = GROUPS.map(function (g, i) {
+        return '<div class="group-tab' + (i === currentGroup ? ' active' : '') + '" data-g="' + i + '">' + g + '</div>';
       }).join('');
     }
 
-    /** Parse extra_info which is often a JSON string on Tizen */
+    function getFiltered() {
+      var g = GROUPS[currentGroup];
+      if (g === 'All') return CHANNELS.slice();
+      return CHANNELS.filter(function (c) { return c.group === g; });
+    }
+
+    function renderChannels() {
+      filtered = getFiltered();
+      if (focusCh >= filtered.length) focusCh = Math.max(0, filtered.length - 1);
+      channelsEl.innerHTML = filtered.map(function (c, i) {
+        return '<div class="ch' + (i === focusCh ? ' focus' : '') + '" data-i="' + i + '">' +
+          '<span class="g">' + c.group + '</span>' + c.name + '</div>';
+      }).join('');
+      // scroll focused into view
+      var el = channelsEl.querySelector('.ch.focus');
+      if (el) el.scrollIntoView({ block: 'nearest' });
+    }
+
     function parseExtra(extra) {
       if (!extra) return {};
       if (typeof extra === 'object') return extra;
-      try {
-        return JSON.parse(extra);
-      } catch (e) {
-        return { raw: String(extra) };
-      }
+      try { return JSON.parse(extra); } catch (e) { return { raw: String(extra) }; }
     }
 
-    function trackLabel(track, fallbackNum) {
+    function trackLabel(track, n) {
       var extra = parseExtra(track.extra_info);
       var lang = extra.language || extra.track_lang || extra.lang || track.language || '';
-      var codec = extra.fourCC || extra.codec || extra.audio_codec || '';
-      var channels = extra.channels || extra.channel || '';
+      var codec = extra.fourCC || extra.codec || '';
       var parts = [];
       if (lang) parts.push(lang);
       if (codec) parts.push(codec);
-      if (channels) parts.push(channels + 'ch');
-      if (parts.length) return parts.join(' · ');
-      return 'Track ' + (fallbackNum + 1);
+      return parts.length ? parts.join(' · ') : ('Track ' + (n + 1));
     }
 
     function updateTrackUI() {
-      if (audioTracks.length === 0) {
-        audioBtn.textContent = 'Audio: —';
-      } else {
+      if (!audioTracks.length) audioBtn.textContent = 'Audio: —';
+      else {
         var a = audioTracks[currentAudioIdx];
         audioBtn.textContent = 'Audio: ' + trackLabel(a, currentAudioIdx) +
-          (audioTracks.length > 1 ? '  (' + (currentAudioIdx + 1) + '/' + audioTracks.length + ')' : '');
+          (audioTracks.length > 1 ? ' (' + (currentAudioIdx + 1) + '/' + audioTracks.length + ')' : '');
       }
-
-      if (currentTextIdx < 0 || textTracks.length === 0) {
-        subBtn.textContent = 'Subs: Off';
-      } else {
+      if (currentTextIdx < 0 || !textTracks.length) subBtn.textContent = 'Subs: Off';
+      else {
         var t = textTracks[currentTextIdx];
         subBtn.textContent = 'Subs: ' + trackLabel(t, currentTextIdx) +
-          '  (' + (currentTextIdx + 1) + '/' + textTracks.length + ')';
+          ' (' + (currentTextIdx + 1) + '/' + textTracks.length + ')';
       }
     }
 
     function getTracks() {
-      audioTracks = [];
-      textTracks = [];
+      audioTracks = []; textTracks = [];
       try {
         var info = av.getTotalTrackInfo();
         if (info && info.length) {
           for (var i = 0; i < info.length; i++) {
             var t = info[i];
             var type = (t.type || '').toUpperCase();
-            // IMPORTANT: use t.index (AVPlay track index), NOT array position
             var entry = {
               index: (typeof t.index !== 'undefined') ? t.index : i,
-              type: type,
               extra_info: t.extra_info,
               language: t.language
             };
@@ -218,28 +276,15 @@
             else if (type === 'TEXT') textTracks.push(entry);
           }
         }
-      } catch (e) {
-        console.log('getTotalTrackInfo:', e);
-      }
-
-      // Keep selection in range
+      } catch (e) {}
       if (currentAudioIdx >= audioTracks.length) currentAudioIdx = 0;
       if (currentTextIdx >= textTracks.length) currentTextIdx = -1;
-
       updateTrackUI();
-
-      if (audioTracks.length || textTracks.length) {
-        osdEl.style.display = 'block';
-        osdEl.textContent = audioTracks.length + ' audio · ' + textTracks.length + ' subtitle track(s)';
-        clearTimeout(getTracks._osd);
-        getTracks._osd = setTimeout(function () { osdEl.style.display = 'none'; }, 4000);
-      }
     }
 
     function cycleAudio() {
-      if (!isPlaying) return;
-      if (audioTracks.length < 2) {
-        showToast(audioTracks.length === 0 ? 'No audio tracks detected' : 'Only one audio track');
+      if (!isPlaying || audioTracks.length < 2) {
+        showToast(audioTracks.length === 0 ? 'No audio tracks' : 'Only one audio');
         return;
       }
       currentAudioIdx = (currentAudioIdx + 1) % audioTracks.length;
@@ -247,29 +292,17 @@
         av.setSelectTrack('AUDIO', audioTracks[currentAudioIdx].index);
         updateTrackUI();
         showToast('Audio → ' + trackLabel(audioTracks[currentAudioIdx], currentAudioIdx));
-      } catch (e) {
-        console.log(e);
-        showToast('Audio switch failed');
-      }
+      } catch (e) { showToast('Audio switch failed'); }
     }
 
     function cycleSubtitle() {
       if (!isPlaying) return;
-      if (textTracks.length === 0) {
-        showToast('No subtitle tracks');
-        return;
-      }
-      // Off → 0 → 1 → … → Off
+      if (!textTracks.length) { showToast('No subtitles'); return; }
       currentTextIdx++;
       if (currentTextIdx >= textTracks.length) currentTextIdx = -1;
-
       try {
         if (currentTextIdx === -1) {
-          // Prefer silent subtitle if available
-          try {
-            av.setSilentSubtitle(true);
-          } catch (e1) {
-            // Fallback: some firmwares reject -1; just leave last selected
+          try { av.setSilentSubtitle(true); } catch (e1) {
             try { av.setSelectTrack('TEXT', -1); } catch (e2) {}
           }
           showToast('Subtitles Off');
@@ -279,82 +312,61 @@
           showToast('Subs → ' + trackLabel(textTracks[currentTextIdx], currentTextIdx));
         }
         updateTrackUI();
-      } catch (e) {
-        console.log(e);
-        showToast('Subtitle switch failed');
-      }
+      } catch (e) { showToast('Subtitle switch failed'); }
     }
 
-    function play(url) {
+    function play(url, name) {
       if (!url) return;
       url = url.trim();
-      saveRecent(url);
-      setStatus('Opening stream…');
+      currentName = name || url;
+      setStatus('Opening ' + currentName + '…');
       ui.style.display = 'none';
       playerContainer.style.display = 'block';
       controls.style.display = 'flex';
+      nowplaying.style.display = 'block';
+      nowplaying.textContent = currentName;
       isPlaying = true;
-
-      audioTracks = [];
-      textTracks = [];
-      currentAudioIdx = 0;
-      currentTextIdx = -1;
+      audioTracks = []; textTracks = [];
+      currentAudioIdx = 0; currentTextIdx = -1;
       updateTrackUI();
 
       try {
-        // Clean previous session
         try { av.stop(); } catch (e) {}
         try { av.close(); } catch (e) {}
-
         av.open(url);
         av.setDisplayRect(0, 0, 1920, 1080);
-
-        // Prefer full-screen letterbox if available
-        try {
-          av.setDisplayMethod('PLAYER_DISPLAY_MODE_FULL_SCREEN');
-        } catch (e) {}
+        try { av.setDisplayMethod('PLAYER_DISPLAY_MODE_FULL_SCREEN'); } catch (e) {}
 
         av.setListener({
           onbufferingstart: function () { setStatus('Buffering…'); },
           onbufferingprogress: function (p) { setStatus('Buffering ' + p + '%'); },
           onbufferingcomplete: function () {
-            setStatus('Playing');
+            setStatus('Playing: ' + currentName);
             setTimeout(getTracks, 600);
           },
           oncurrentplaytime: function () {},
           onerror: function (e) {
-            setStatus('Error: ' + e);
-            showToast('Playback error: ' + e);
+            showToast('Error: ' + e);
             stop();
           },
-          onerrormsg: function (e, msg) {
-            setStatus('Error: ' + msg);
-            showToast(msg || e);
-          },
-          onstreamcompleted: function () { stop(); },
-          onsubtitlechange: function (duration, text) {
-            // Optional: could show burned-in subtitle text here if needed
-          }
+          onerrormsg: function (e, msg) { showToast(msg || e); },
+          onstreamcompleted: function () { stop(); }
         });
 
         av.prepareAsync(
           function () {
             av.play();
-            setStatus('Playing');
-            // Tracks often appear after a short delay on live TS
+            setStatus('Playing: ' + currentName);
             setTimeout(getTracks, 1000);
             setTimeout(getTracks, 3000);
           },
-          function (err) {
-            setStatus('Prepare failed');
+          function () {
             showToast('Cannot play this stream');
-            console.log(err);
             stop();
           }
         );
       } catch (e) {
-        setStatus('Exception: ' + (e.message || e));
-        showToast('Failed to open stream');
+        showToast('Failed: ' + (e.message || e));
         stop();
       }
     }
@@ -365,100 +377,97 @@
       try { av.close(); } catch (e) {}
       playerContainer.style.display = 'none';
       controls.style.display = 'none';
-      osdEl.style.display = 'none';
+      nowplaying.style.display = 'none';
       ui.style.display = 'flex';
-      urlInput.focus();
-      focusIndex = -1;
       setStatus('Stopped');
+      renderChannels();
     }
 
     function togglePause() {
       try {
         var state = av.getState();
-        if (state === 'PLAYING') {
-          av.pause();
-          showToast('Paused');
-          setStatus('Paused');
-        } else if (state === 'PAUSED') {
-          av.play();
-          showToast('Playing');
-          setStatus('Playing');
-        }
+        if (state === 'PLAYING') { av.pause(); showToast('Paused'); }
+        else if (state === 'PAUSED') { av.play(); showToast('Playing'); }
       } catch (e) {}
     }
 
-    // Key handling
+    function playFocused() {
+      if (filtered[focusCh]) play(filtered[focusCh].url, filtered[focusCh].name);
+    }
+
+    // COLS for grid navigation (approx 6 channels per row at 300px)
+    var COLS = 6;
+
     document.addEventListener('keydown', function (e) {
       var key = e.keyCode;
 
-      // ===== Playing state =====
       if (isPlaying) {
-        if (key === 10009 || key === 27 || key === 8 || key === 461) { // Back / Return
-          e.preventDefault();
-          stop();
-        } else if (key === 13 || key === 415 || key === 19 || key === 10252) { // OK / PlayPause
-          e.preventDefault();
-          togglePause();
-        } else if (key === 413) { // MediaStop
-          e.preventDefault();
-          stop();
-        } else if (key === 403 || key === 65 || key === 82) { // Red / A / R
-          e.preventDefault();
-          cycleAudio();
-        } else if (key === 404 || key === 66 || key === 71) { // Green / B / G
-          e.preventDefault();
-          cycleSubtitle();
-        } else if (key === 405) { // Yellow – refresh tracks
-          e.preventDefault();
-          getTracks();
-          showToast('Tracks refreshed');
+        if (key === 10009 || key === 27 || key === 8 || key === 461 || key === 413) {
+          e.preventDefault(); stop();
+        } else if (key === 13 || key === 415 || key === 19 || key === 10252) {
+          e.preventDefault(); togglePause();
+        } else if (key === 403 || key === 65) {
+          e.preventDefault(); cycleAudio();
+        } else if (key === 404 || key === 66) {
+          e.preventDefault(); cycleSubtitle();
+        } else if (key === 405) {
+          e.preventDefault(); getTracks(); showToast('Tracks refreshed');
         }
         return;
       }
 
-      // ===== UI navigation =====
-      var items = recentDiv.querySelectorAll('.item');
-      if ([13, 37, 38, 39, 40].indexOf(key) !== -1) e.preventDefault();
+      // UI
+      if ([13, 37, 38, 39, 40, 403, 404].indexOf(key) !== -1) e.preventDefault();
 
-      if (key === 13) { // OK
-        if (focusIndex <= 0) play(urlInput.value);
-        else if (items[focusIndex - 1]) play(items[focusIndex - 1].textContent);
+      if (key === 13) {
+        playFocused();
       } else if (key === 40) { // Down
-        focusIndex = Math.min(focusIndex + 1, items.length);
-        updateFocus(items);
+        focusCh = Math.min(focusCh + COLS, filtered.length - 1);
+        renderChannels();
       } else if (key === 38) { // Up
-        focusIndex = Math.max(focusIndex - 1, -1);
-        updateFocus(items);
+        focusCh = Math.max(focusCh - COLS, 0);
+        renderChannels();
+      } else if (key === 39) { // Right
+        focusCh = Math.min(focusCh + 1, filtered.length - 1);
+        renderChannels();
+      } else if (key === 37) { // Left
+        focusCh = Math.max(focusCh - 1, 0);
+        renderChannels();
+      } else if (key === 403) { // Red → previous group
+        currentGroup = (currentGroup - 1 + GROUPS.length) % GROUPS.length;
+        focusCh = 0;
+        renderGroups();
+        renderChannels();
+      } else if (key === 404) { // Green → next group
+        currentGroup = (currentGroup + 1) % GROUPS.length;
+        focusCh = 0;
+        renderGroups();
+        renderChannels();
       }
     });
 
-    function updateFocus(items) {
-      urlInput.classList.remove('focus');
-      playBtn.classList.remove('focus');
-      for (var i = 0; i < items.length; i++) items[i].classList.remove('focus');
-
-      if (focusIndex === -1) {
-        urlInput.focus();
-        urlInput.classList.add('focus');
-      } else if (focusIndex === 0) {
-        playBtn.focus();
-        playBtn.classList.add('focus');
-      } else {
-        var el = items[focusIndex - 1];
-        if (el) {
-          el.focus();
-          el.classList.add('focus');
-          el.scrollIntoView({ block: 'nearest' });
-        }
-      }
-    }
-
-    playBtn.addEventListener('click', function () { play(urlInput.value); });
-    recentDiv.addEventListener('click', function (e) {
-      if (e.target.classList.contains('item')) play(e.target.textContent);
+    playBtn.addEventListener('click', function () {
+      play(urlInput.value.trim(), 'Custom URL');
     });
 
-    // Register media + color keys for Samsung remote
+    channelsEl.addEventListener('click', function (e) {
+      var el = e.target.closest('.ch');
+      if (el) {
+        focusCh = parseInt(el.getAttribute('data-i'), 10);
+        playFocused();
+      }
+    });
+
+    groupsEl.addEventListener('click', function (e) {
+      var el = e.target.closest('.group-tab');
+      if (el) {
+        currentGroup = parseInt(el.getAttribute('data-g'), 10);
+        focusCh = 0;
+        renderGroups();
+        renderChannels();
+      }
+    });
+
     try {
       tizen.tvinputdevice.registerKey('MediaPlayPause');
       tizen.tvinputdevice.registerKey('MediaPlay');
@@ -470,8 +479,8 @@
       tizen.tvinputdevice.registerKey('ColorF3Blue');
     } catch (e) {}
 
-    renderRecent();
-    urlInput.focus();
+    renderGroups();
+    renderChannels();
   </script>
 </body>
 </html>
