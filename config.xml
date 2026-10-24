@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets"
-        id="http://breakingbee.relayplayer" version="1.2.1" viewmodes="maximized">
+        id="http://breakingbee.relayplayer" version="1.2.2" viewmodes="maximized">
   <tizen:application id="R3layPlay01.RelayPlayer" package="R3layPlay01" required_version="2.3"/>
   <content src="index.html"/>
   <feature name="http://tizen.org/feature/screen.size.normal.1080.1920"/>
@@ -8,6 +8,6 @@
   <tizen:privilege name="http://tizen.org/privilege/internet"/>
   <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice"/>
   <tizen:profile name="tv-samsung"/>
-  <name>Relay Player</name>
+  <name>RelayPlayer</name>
   <description>Sky DE streamrelay player for Samsung Tizen</description>
 </widget>
