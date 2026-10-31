@@ -170,6 +170,11 @@
       "name": "Cartoon Network",
       "group": "Kids",
       "ref": "12382:H:27500:0194:000B:0085:0"
+    },
+    {
+      "name": "STB Live",
+      "group": "My STB",
+      "url": "http://192.168.1.11:8001/cgi-bin/live.ts"
     }
   ]
 }
